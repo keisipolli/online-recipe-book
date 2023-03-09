@@ -1,0 +1,9 @@
+extends ../layout.pug
+block content
+    h1 All recipes
+    .recipe-grid
+        each recipe in recipes
+            .recipe-card
+                img(src=recipe.image)
+                h3=recipe.title
+                p=recipe.description
