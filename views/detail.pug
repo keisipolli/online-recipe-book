@@ -1,0 +1,22 @@
+extends layout
+
+block content
+    .container
+        .row
+            .col-md-8.offset-md-2
+                if recipe && recipe.image
+                    img.img-fluid(src=recipe.image, alt=recipe.title)
+                if recipe && recipe.title
+                    h2= recipe.title
+                if recipe && recipe.ingredients && recipe.ingredients.length
+                    h4 Ingredients
+                    ul.list-unstyled
+                        each ingredient in recipe.ingredients.split(',')
+                            li= ingredient
+                else
+                    p There are no ingredients for this recipe.
+                if recipe && recipe.instructions
+                    h4 Instructions:
+                    p= recipe.instructions
+                else
+                    p There are no instructions for this recipe.

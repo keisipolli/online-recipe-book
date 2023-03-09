@@ -1,0 +1,14 @@
+extends layout
+
+block content
+    .container
+        .row
+            each recipe in recipes
+                .col-md-4.mb-4
+                    .card
+                        if recipe.image
+                            img.card-img-top(src=recipe.image, alt=recipe.title)
+                        .card-body
+                            h5.card-title= recipe.title
+                            p.card-text= recipe.description
+                            a.btn.btn-primary(href=`/recipes/${recipe.id}`) View Recipe

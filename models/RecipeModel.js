@@ -1,40 +1,29 @@
-module.exports = {
+const sqlite3 = require('sqlite3').verbose();
 
-    getAll: function (props, db) {
+class Recipe {
+    constructor(id, title, ingredients, instructions, authorId, image) {
+        this.id = id;
+        this.title = title;
+        this.ingredients = ingredients;
+        this.instructions = instructions;
+        this.authorId = authorId;
+        this.image = image;
+    }
 
-        // Build the query WHERE clause dynamically from the props object using db.q
-        let whereClause = '';
-        let whereClauseValues = [];
-        for (const prop in props) {
-
-            // Add WHERE
-            if (whereClause === '') {
-                whereClause = 'WHERE ';
+    static findById(id, cb) {
+        const db = new sqlite3.Database('database.sqlite');
+        db.get(`SELECT * FROM recipes WHERE id = ?`, id, function(err, row) {
+            db.close();
+            if (err) {
+                return cb(err);
             }
-
-            if (props.hasOwnProperty(prop)) {
-                whereClause += `\`${prop}\` = ? AND `;
-                whereClauseValues.push(props[prop]);
+            if (!row) {
+                return cb(null, null);
             }
-
-            // Remove the last AND
-            whereClause = whereClause.slice(0, -5);
-
-
-        }
-
-        // Build the query
-        const query = `SELECT DISTINCT *
-                       FROM Recipes
-                                LEFT JOIN UsersRecipes ON Recipes.id = UsersRecipes.recipeId
-                           ${whereClause}
-                       ORDER BY Recipes.title`;
-
-
-        // Run the query and return the result
-        return db.qa(query, whereClauseValues).catch((err) => {
-            console.error(err.message);
-        })
-
+            const recipe = new Recipe(row.id, row.title, row.ingredients, row.instructions, row.author_id, row.image);
+            cb(null, recipe);
+        });
     }
 }
+
+module.exports = Recipe;
