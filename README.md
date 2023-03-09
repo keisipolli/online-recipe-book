@@ -1,7 +1,7 @@
 Online Recipe Book
 
 
-An online Recipe Book for people who want to explore new dishes, ingredients and techniques. You can currently only see the list of recipes.
+An online Recipe Book for people who want to explore new dishes, ingredients and techniques. You can currently only see the list of recipes and recipe details.
 
 
 Installation:
